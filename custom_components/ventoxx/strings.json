@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Ventoxx",
+        "description": "Enter the IP address and password of your Ventoxx Harmony recuperator.",
+        "data": {
+          "host": "IP Address or Hostname",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect or invalid password"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Ventoxx Options",
+        "data": {
+          "scan_interval": "Update Interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "fan": {
+        "name": "Fan",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "recuperation": "Recuperation",
+              "intake": "Intake",
+              "exhaust": "Exhaust",
+              "night": "Night",
+              "intensive": "Intensive"
+            }
+          }
+        }
+      }
+    },
+    "switch": {
+      "buzzer": {
+        "name": "Buzzer"
+      },
+      "display": {
+        "name": "Display"
+      }
+    },
+    "sensor": {
+      "mode": {
+        "name": "Operating Mode"
+      },
+      "error": {
+        "name": "Error Code"
+      },
+      "pairing": {
+        "name": "Pairing State"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "domain": "ventoxx",
+  "name": "Ventoxx Fan Control",
+  "codeowners": ["@alex-volga"],
+  "config_flow": true,
+  "documentation": "https://github.com/alex-volga/ha-ventoxx",
+  "issue_tracker": "https://github.com/alex-volga/ha-ventoxx/issues",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "version": "1.0.0"
+}

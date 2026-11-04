@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Підключення до Ventoxx",
+        "description": "Введіть IP-адресу та пароль рекуператора Ventoxx Harmony.",
+        "data": {
+          "host": "IP-адреса або хост",
+          "password": "Пароль"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Не вдалося підключитися або невірний пароль"
+    },
+    "abort": {
+      "already_configured": "Пристрій вже налаштовано"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Налаштування Ventoxx",
+        "data": {
+          "scan_interval": "Інтервал опитування (секунди)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "fan": {
+        "name": "Вентилятор",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "recuperation": "Рекуперація",
+              "intake": "Приплив",
+              "exhaust": "Витяжка",
+              "night": "Нічний",
+              "intensive": "Інтенсивний"
+            }
+          }
+        }
+      }
+    },
+    "switch": {
+      "buzzer": {
+        "name": "Звуковий сигнал (зумер)"
+      },
+      "display": {
+        "name": "Підсвічування дисплею"
+      }
+    },
+    "sensor": {
+      "mode": {
+        "name": "Режим роботи"
+      },
+      "error": {
+        "name": "Код помилки"
+      },
+      "pairing": {
+        "name": "Режим спарювання"
+      }
+    }
+  }
+}

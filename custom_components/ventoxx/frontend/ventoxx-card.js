@@ -90,8 +90,8 @@ class VentoxxCard extends HTMLElement {
           transform: scale(1.05);
         }
         .power-btn svg {
-          width: 22px;
-          height: 22px;
+          width: 24px;
+          height: 24px;
           fill: currentColor;
         }
         .section-label {
@@ -186,9 +186,9 @@ class VentoxxCard extends HTMLElement {
             ${cardTitle ? `<div class="title">${cardTitle}</div>` : ''}
           </div>
           <button class="power-btn" id="btn-power" title="${isOn ? 'Вимкнути' : 'Увімкнути'}">
-            <!-- mdi:power (0_I) -->
+            <!-- mdi:power-cycle -->
             <svg viewBox="0 0 24 24">
-              <path d="M16.56,5.44C15.86,4.74 15.03,4.2 14.12,3.85C13.21,3.5 12.24,3.32 11.27,3.32C10.3,3.32 9.33,3.5 8.42,3.85C7.51,4.2 6.68,4.74 5.98,5.44C3.87,7.55 3.33,10.74 4.38,13.38L3.21,14.55C1.86,11.39 2.5,7.58 5.12,4.96C6.01,4.07 7.07,3.38 8.24,2.94C9.41,2.5 10.65,2.27 11.9,2.27C13.15,2.27 14.39,2.5 15.56,2.94C16.73,3.38 17.79,4.07 18.68,4.96C21.3,7.58 21.94,11.39 20.59,14.55L19.42,13.38C20.47,10.74 19.93,7.55 17.82,5.44M11.9,13.64C12.45,13.64 12.9,13.19 12.9,12.64V1C12.9,0.45 12.45,0 11.9,0C11.35,0 10.9,0.45 10.9,1V12.64C10.9,13.19 11.35,13.64 11.9,13.64Z" />
+              <path d="M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M12,19A7,7 0 0,1 5,12A7,7 0 0,1 12,5A7,7 0 0,1 19,12A7,7 0 0,1 12,19M13,17H11V7H13V17Z" />
             </svg>
           </button>
         </div>
@@ -222,17 +222,20 @@ class VentoxxCard extends HTMLElement {
 
         <div class="section-label">Режим роботи</div>
         <div class="mode-row">
+          <!-- Витяжка зліва: mdi:home-export-outline -->
+          <button class="mode-btn ${isOn && currentMode === 'exhaust' ? 'active' : ''}" data-mode="exhaust" title="Витяжка повітря">
+            <svg viewBox="0 0 24 24"><path d="M24 13L20 17V14H11V12H20V9L24 13M4 20V12H1L11 3L18 9.3V10H15.79L11 5.69L6 10.19V18H16V16H18V20H4Z"/></svg>
+            <span>Витяжка</span>
+          </button>
+          <!-- Рекуперація по центру: mdi:sync / cycle -->
           <button class="mode-btn ${isOn && currentMode === 'recuperation' ? 'active' : ''}" data-mode="recuperation" title="Рекуперація (теплообмін)">
             <svg viewBox="0 0 24 24"><path d="M12,18A6,6 0 0,1 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12A8,8 0 0,0 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6A6,6 0 0,1 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12A8,8 0 0,0 12,4Z"/></svg>
             <span>Рекуперація</span>
           </button>
+          <!-- Приплив справа: mdi:home-import-outline -->
           <button class="mode-btn ${isOn && currentMode === 'intake' ? 'active' : ''}" data-mode="intake" title="Приплив повітря">
-            <svg viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M15 13L11 17V14H2V12H11V9L15 13M5 20V16H7V18H17V10.19L12 5.69L7.21 10H4.22L12 3L22 12H19V20H5Z"/></svg>
             <span>Приплив</span>
-          </button>
-          <button class="mode-btn ${isOn && currentMode === 'exhaust' ? 'active' : ''}" data-mode="exhaust" title="Витяжка повітря">
-            <svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>
-            <span>Витяжка</span>
           </button>
         </div>
       </ha-card>

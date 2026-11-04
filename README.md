@@ -1,22 +1,33 @@
 # Ventoxx Fan Control for Home Assistant 🌀
 
+<p align="center">
+  <img src="icon.png" alt="Ventoxx Logo" width="128" height="128">
+</p>
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/default)
 [![GitHub release](https://img.shields.io/github/v/release/alex-volga/ha-ventoxx?include_prereleases)](https://github.com/alex-volga/ha-ventoxx/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Повноцінна локальна інтеграція Home Assistant для рекуператорів та вентиляційних установок **Ventoxx Harmony Smart** (та сумісних моделей Ventoxx).
+Повноцінна локальна інтеграція Home Assistant для рекуператорів та вентиляційних установок **Ventoxx Harmony Smart** (та сумісних моделей [Ventoxx](https://ventoxx.ua/)).
 
 ---
 
-## 🚀 Переваги над Tuya Cloud
+## 🚀 Можливості інтеграції
 
 * ⚡ **100% локальне керування:** Спілкується безпосередньо з пристроєм через локальну мережу HTTP API. Жодних хмар Tuya, затримок чи залежності від інтернету.
 * 🔄 **Повний зворотний зв'язок:** Стан миттєво оновлюється в Home Assistant, навіть якщо ви керуєте з **фізичного пульта ДУ** або через додаток **SmartLife / Tuya**.
-* 🎛️ **Повноцінна сутність вентилятора (`fan`):**
-  * Вмикання / Вимикання
-  * 3 швидкості (33%, 66%, 100%)
-  * Усі режими роботи: **Рекуперація**, **Приплив**, **Витяжка**, **Нічний режим**, **Інтенсивне провітрювання**
-* 🔔 **Додаткові перемикачі:** Звуковий сигнал (зумер) та підсвічування дисплею.
+* 🎛️ **Зручний вибір режимів та швидкостей:**
+  * **Вибір режиму (`select.ventoxx_harmony_operating_mode`):**
+    * 🔄 **Рекуперація** (`recuperation`)
+    * 💨 **Приплив** (`intake`)
+    * 🚪 **Витяжка** (`exhaust`)
+    * ⚡ **Інтенсивний приплив** (`intensive_intake`)
+    * 🌪️ **Інтенсивна витяжка** (`intensive_exhaust`)
+  * **Вибір швидкості (`select.ventoxx_harmony_speed`):** Швидкість 1, 2, 3
+  * **Сутність вентилятора (`fan.ventoxx_harmony_fan`):** Стандартний інтерфейс з повзунком швидкості та вибором режимів.
+* 🔔 **Перемикачі (`switch`):**
+  * **Підсвічування дисплею (`switch.ventoxx_harmony_display`):** Коректне увімкнення та вимкнення індикації приладу.
+  * **Звуковий сигнал / зумер (`switch.ventoxx_harmony_buzzer`):** Звуковий супровід команд.
 * 📊 **Діагностичні сенсори:** Поточний режим роботи, код помилки, режим спарювання (ведучий/підлеглий).
 
 ---
@@ -34,11 +45,11 @@
 
 ### Варіант 2: Вручну
 
-1. Завантажте репозиторій або скопіюйте папку `custom_components/ventoxx/` у каталог вашого Home Assistant:
-   ```
-   <config>/custom_components/ventoxx/
-   ```
-2. Перезавантажте Home Assistant.
+Скопіюйте папку `custom_components/ventoxx/` у каталог вашого Home Assistant:
+```bash
+<config>/custom_components/ventoxx/
+```
+І перезавантажте Home Assistant.
 
 ---
 
@@ -48,7 +59,7 @@
 2. Знайдіть **Ventoxx**.
 3. Введіть:
    * **IP-адреса або хост:** наприклад `192.168.1.124`
-   * **Пароль:** пароль від веб-панелі пристрою (за замовчуванням `ventoxxpass` або ваш власний)
+   * **Пароль:** пароль від веб-панелі пристрою (за замовчуванням `ventoxxpass`)
 4. Натисніть **Надіслати**.
 
 ---

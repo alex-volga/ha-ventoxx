@@ -37,10 +37,30 @@
               "recuperation": "Рекуперація",
               "intake": "Приплив",
               "exhaust": "Витяжка",
-              "night": "Нічний",
-              "intensive": "Інтенсивний"
+              "intensive_intake": "Інтенсивний приплив",
+              "intensive_exhaust": "Інтенсивна витяжка"
             }
           }
+        }
+      }
+    },
+    "select": {
+      "mode_select": {
+        "name": "Режим роботи",
+        "state": {
+          "recuperation": "Рекуперація",
+          "intake": "Приплив",
+          "exhaust": "Витяжка",
+          "intensive_intake": "Інтенсивний приплив",
+          "intensive_exhaust": "Інтенсивна витяжка"
+        }
+      },
+      "speed_select": {
+        "name": "Швидкість",
+        "state": {
+          "1": "1 швидкість",
+          "2": "2 швидкість",
+          "3": "3 швидкість"
         }
       }
     },
@@ -54,7 +74,7 @@
     },
     "sensor": {
       "mode": {
-        "name": "Режим роботи"
+        "name": "Поточний режим"
       },
       "error": {
         "name": "Код помилки"

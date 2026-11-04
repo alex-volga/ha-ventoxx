@@ -5,6 +5,14 @@ import logging
 from typing import Any
 import aiohttp
 
+from .const import (
+    PRESET_EXHAUST,
+    PRESET_INTAKE,
+    PRESET_INTENSIVE_EXHAUST,
+    PRESET_INTENSIVE_INTAKE,
+    PRESET_RECUPERATION,
+)
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -14,32 +22,32 @@ def decode_fstate(fstate: int) -> dict[str, Any]:
         return {
             "is_on": False,
             "speed": 0,
-            "preset_mode": "recuperation",
+            "preset_mode": PRESET_RECUPERATION,
         }
 
     speed = fstate & 0x07
-    if fstate == 0x0E:  # 14
-        return {
-            "is_on": True,
-            "speed": 1,
-            "preset_mode": "night",
-        }
-    if fstate == 0x06:  # 6
+    if fstate == 0x0E:  # 14: button 2 (two blue arrows left - intensive exhaust)
         return {
             "is_on": True,
             "speed": 3,
-            "preset_mode": "intensive",
+            "preset_mode": PRESET_INTENSIVE_EXHAUST,
+        }
+    if fstate == 0x06:  # 6: button 5 (two red arrows right - intensive intake)
+        return {
+            "is_on": True,
+            "speed": 3,
+            "preset_mode": PRESET_INTENSIVE_INTAKE,
         }
 
     mode_bits = fstate & 0x18
     if mode_bits == 0x10:
-        mode = "recuperation"
+        mode = PRESET_RECUPERATION  # button 4: <-> double arrow
     elif mode_bits == 0x08:
-        mode = "intake"
+        mode = PRESET_EXHAUST       # button 3: <- single blue arrow
     elif mode_bits == 0x00:
-        mode = "exhaust"
+        mode = PRESET_INTAKE        # button 6: -> single red arrow
     else:
-        mode = "recuperation"
+        mode = PRESET_RECUPERATION
 
     return {
         "is_on": True,
@@ -51,13 +59,13 @@ def decode_fstate(fstate: int) -> dict[str, Any]:
 def encode_fstate(preset_mode: str, speed: int = 1) -> int:
     """Encode preset mode and speed into raw fstate bitmask."""
     spd = max(1, min(3, speed))
-    if preset_mode == "night":
+    if preset_mode in (PRESET_INTENSIVE_EXHAUST, "night"):
         return 0x0E
-    if preset_mode == "intensive":
+    if preset_mode in (PRESET_INTENSIVE_INTAKE, "intensive"):
         return 0x06
-    if preset_mode == "intake":
+    if preset_mode == PRESET_EXHAUST:
         return 0x08 | spd
-    if preset_mode == "exhaust":
+    if preset_mode == PRESET_INTAKE:
         return spd
     # Default is recuperation
     return 0x10 | spd

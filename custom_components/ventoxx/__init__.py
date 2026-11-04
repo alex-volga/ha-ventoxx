@@ -10,7 +10,12 @@ from .const import CONF_HOST, CONF_PASSWORD, CONF_SCAN_INTERVAL, DEFAULT_SCAN_IN
 from .coordinator import VentoxxDataUpdateCoordinator
 from .ventoxx_api import VentoxxAPI
 
-PLATFORMS: list[Platform] = [Platform.FAN, Platform.SWITCH, Platform.SENSOR]
+PLATFORMS: list[Platform] = [
+    Platform.FAN,
+    Platform.SWITCH,
+    Platform.SELECT,
+    Platform.SENSOR,
+]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

@@ -62,7 +62,7 @@ class VentoxxBuzzerSwitch(CoordinatorEntity[VentoxxDataUpdateCoordinator], Switc
 
     @property
     def is_on(self) -> bool:
-        """Return True if buzzer is enabled."""
+        """Return True if buzzer is enabled (1 = enabled, 0 = muted)."""
         return bool(self.coordinator.data.get("buzzst", 0))
 
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -106,17 +106,17 @@ class VentoxxDisplaySwitch(CoordinatorEntity[VentoxxDataUpdateCoordinator], Swit
 
     @property
     def is_on(self) -> bool:
-        """Return True if display is enabled."""
-        return bool(self.coordinator.data.get("dispst", 0))
+        """Return True if display is ON (dispst: 0 = display ON/illuminated, 1 = display OFF/dark)."""
+        return not bool(self.coordinator.data.get("dispst", 0))
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        """Turn on the display."""
+        """Turn on the display (set dispst to 0)."""
         if not self.is_on:
             await self.api.set_display()
             await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        """Turn off the display."""
+        """Turn off the display (set dispst to 1)."""
         if self.is_on:
             await self.api.set_display()
             await self.coordinator.async_request_refresh()

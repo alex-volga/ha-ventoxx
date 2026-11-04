@@ -75,7 +75,7 @@ class VentoxxFan(CoordinatorEntity[VentoxxDataUpdateCoordinator], FanEntity):
             model="Harmony Smart",
             configuration_url=f"http://{host}",
         )
-        self._last_speed = 1
+        self._last_speed = 2
         self._last_mode = PRESET_RECUPERATION
 
     @property
@@ -111,11 +111,12 @@ class VentoxxFan(CoordinatorEntity[VentoxxDataUpdateCoordinator], FanEntity):
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return extra state attributes."""
         return {
+            "speed_level": self.coordinator.data.get("speed"),
             "fstate_raw": self.coordinator.data.get("fstate"),
             "derror": self.coordinator.data.get("derror"),
             "dstate": self.coordinator.data.get("dstate"),
             "buzzer": bool(self.coordinator.data.get("buzzst", 0)),
-            "display": bool(self.coordinator.data.get("dispst", 0)),
+            "display": not bool(self.coordinator.data.get("dispst", 0)),
         }
 
     async def async_turn_on(
@@ -161,7 +162,7 @@ class VentoxxFan(CoordinatorEntity[VentoxxDataUpdateCoordinator], FanEntity):
             raise ValueError(f"Invalid preset mode: {preset_mode}")
 
         self._last_mode = preset_mode
-        speed = self._last_speed or 1
+        speed = self._last_speed or 2
         fstate = encode_fstate(preset_mode, speed)
         await self.api.set_fstate(fstate)
         await self.coordinator.async_request_refresh()

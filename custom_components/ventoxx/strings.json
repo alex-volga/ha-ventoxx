@@ -37,10 +37,30 @@
               "recuperation": "Recuperation",
               "intake": "Intake",
               "exhaust": "Exhaust",
-              "night": "Night",
-              "intensive": "Intensive"
+              "intensive_intake": "Intensive Intake",
+              "intensive_exhaust": "Intensive Exhaust"
             }
           }
+        }
+      }
+    },
+    "select": {
+      "mode_select": {
+        "name": "Operating Mode",
+        "state": {
+          "recuperation": "Recuperation",
+          "intake": "Intake",
+          "exhaust": "Exhaust",
+          "intensive_intake": "Intensive Intake",
+          "intensive_exhaust": "Intensive Exhaust"
+        }
+      },
+      "speed_select": {
+        "name": "Speed",
+        "state": {
+          "1": "Speed 1",
+          "2": "Speed 2",
+          "3": "Speed 3"
         }
       }
     },

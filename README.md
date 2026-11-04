@@ -28,17 +28,30 @@
 * 🔔 **Перемикачі (`switch`):**
   * **Підсвічування дисплею (`switch.ventoxx_harmony_display`):** Коректне увімкнення та вимкнення індикації приладу.
   * **Звуковий сигнал / зумер (`switch.ventoxx_harmony_buzzer`):** Звуковий супровід команд.
-* 📊 **Діагностичні сенсори:** Поточний режим роботи, код помилки, режим спарювання (ведучий/підлеглий).
+* 📊 **Діагностичні сенсори:**
+  * **Роль приладу:** `Незалежний`, `Головний` або `Підлеглий`.
+  * **Версія прошивки:** автоматично визначається з `upd.html` (наприклад `0.9.5.010`).
+  * **Мережева назва:** автоматично визначається з `set.html` (наприклад `ventoxx-e1ba64`).
+  * **Код помилки:** діагностика несправностей.
 
 ---
 
-## 🎨 Приклади карток для дашборду (Dashboard Cards)
+## 🎨 Варіанти карток для дашборду (Dashboard Cards)
 
-Замість звичайної нудної картки зі списком перемикачів, використовуйте сучасну картку Home Assistant:
+### Варіант 1: Фірмова інтерактивна картка Ventoxx (`custom:ventoxx-card`) — Найзручніша!
 
-### Варіант 1: Компактна сучасна Tile-картка (Рекомендовано)
+Інтеграція постачається з **готовою вбудованою карткою**, яка автоматично реєструється в Home Assistant. Вона має інтерактивні кнопки швидкостей та режимів з підсвічуванням поточного стану, а також показує назву приладу та його роль:
 
-Найбільш ергономічна нативна картка Home Assistant з анімацією обертання та вбудованим керуванням швидкістю і режимами:
+```yaml
+type: custom:ventoxx-card
+entity: fan.ventoxx_harmony_fan
+```
+
+---
+
+### Варіант 2: Нативна картка-плитка Home Assistant (Tile Card)
+
+Якщо ви віддаєте перевагу нативним елементам Home Assistant, додайте `fan-preset-modes` зі стилем `icons` — завдяки `icons.json` активний режим підсвічуватиметься точно так само, як і швидкість:
 
 ```yaml
 type: tile
@@ -49,112 +62,13 @@ color: teal
 features:
   - type: fan-speed
   - type: fan-preset-modes
-    style: dropdown
+    style: icons
     preset_modes:
       - recuperation
       - intake
       - exhaust
       - intensive_intake
       - intensive_exhaust
-```
-
----
-
-### Варіант 2: Повна панель керування (як у рідному пульті Ventoxx)
-
-Повністю відтворює фізичний пульт і веб-панель Ventoxx: окремі кнопки для кожної швидкості (1, 2, 3), кнопки для кожного режиму та перемикачі підсвітки/звуку:
-
-```yaml
-type: vertical-stack
-cards:
-  # Головна плашка з вентилятором
-  - type: tile
-    entity: fan.ventoxx_harmony_fan
-    name: Ventoxx Harmony
-    icon: mdi:air-filter
-    color: teal
-    features:
-      - type: fan-speed
-
-  # Кнопки швидкостей: 1, 2, 3
-  - type: horizontal-stack
-    cards:
-      - type: button
-        name: "1 Швидкість"
-        icon: mdi:fan-speed-1
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_speed
-          data:
-            option: "1"
-      - type: button
-        name: "2 Швидкість"
-        icon: mdi:fan-speed-2
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_speed
-          data:
-            option: "2"
-      - type: button
-        name: "3 Швидкість"
-        icon: mdi:fan-speed-3
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_speed
-          data:
-            option: "3"
-
-  # Кнопки режимів роботи
-  - type: horizontal-stack
-    cards:
-      - type: button
-        name: "Рекуперація"
-        icon: mdi:sync
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_operating_mode
-          data:
-            option: "recuperation"
-      - type: button
-        name: "Приплив"
-        icon: mdi:arrow-right-bold
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_operating_mode
-          data:
-            option: "intake"
-      - type: button
-        name: "Витяжка"
-        icon: mdi:arrow-left-bold
-        tap_action:
-          action: call-service
-          service: select.select_option
-          target:
-            entity_id: select.ventoxx_harmony_operating_mode
-          data:
-            option: "exhaust"
-
-  # Перемикачі дисплея та звуку
-  - type: horizontal-stack
-    cards:
-      - type: tile
-        entity: switch.ventoxx_harmony_display
-        name: Дисплей
-        icon: mdi:brightness-6
-      - type: tile
-        entity: switch.ventoxx_harmony_buzzer
-        name: Звук
-        icon: mdi:volume-high
 ```
 
 ---
@@ -193,8 +107,6 @@ cards:
 
 ## 💡 Автоматизація: Пам'ять стану після відключення світла (Power-on Restore)
 
-Оскільки прошивка Ventoxx після подачі живлення завжди стартує вимкненою, ви можете додати просту автоматизацію в Home Assistant, щоб пристрій автоматично повертався у свій попередній режим після відновлення електроенергії:
-
 ```yaml
 alias: "Ventoxx: Відновлення роботи після появи світла"
 description: "Вмикає рекуператор у попередній режим, якщо він працював до збою живлення"
@@ -204,7 +116,7 @@ trigger:
     from: "off"
     to: "on"
     for:
-      seconds: 20 # час на завантаження рекуператора та підключення до Wi-Fi
+      seconds: 20
 condition:
   - condition: template
     value_template: "{{ states('fan.ventoxx_harmony_fan') != 'unavailable' }}"

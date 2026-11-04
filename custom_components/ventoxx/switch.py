@@ -52,11 +52,13 @@ class VentoxxBuzzerSwitch(CoordinatorEntity[VentoxxDataUpdateCoordinator], Switc
         super().__init__(coordinator)
         self.api = api
         self._attr_unique_id = f"{entry_id}_buzzer"
+        dev_title = f"Ventoxx ({api.device_name})" if api.device_name else "Ventoxx Harmony"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Ventoxx Harmony",
+            name=dev_title,
             manufacturer="Ventoxx",
             model="Harmony Smart",
+            sw_version=api.sw_version,
             configuration_url=f"http://{host}",
         )
 
@@ -96,11 +98,13 @@ class VentoxxDisplaySwitch(CoordinatorEntity[VentoxxDataUpdateCoordinator], Swit
         super().__init__(coordinator)
         self.api = api
         self._attr_unique_id = f"{entry_id}_display"
+        dev_title = f"Ventoxx ({api.device_name})" if api.device_name else "Ventoxx Harmony"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Ventoxx Harmony",
+            name=dev_title,
             manufacturer="Ventoxx",
             model="Harmony Smart",
+            sw_version=api.sw_version,
             configuration_url=f"http://{host}",
         )
 

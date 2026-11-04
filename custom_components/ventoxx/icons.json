@@ -1,0 +1,35 @@
+{
+  "entity": {
+    "fan": {
+      "fan": {
+        "state_attributes": {
+          "preset_mode": {
+            "recuperation": "mdi:sync",
+            "intake": "mdi:arrow-right-bold",
+            "exhaust": "mdi:arrow-left-bold",
+            "intensive_intake": "mdi:chevron-double-right",
+            "intensive_exhaust": "mdi:chevron-double-left"
+          }
+        }
+      }
+    },
+    "select": {
+      "mode_select": {
+        "state": {
+          "recuperation": "mdi:sync",
+          "intake": "mdi:arrow-right-bold",
+          "exhaust": "mdi:arrow-left-bold",
+          "intensive_intake": "mdi:chevron-double-right",
+          "intensive_exhaust": "mdi:chevron-double-left"
+        }
+      },
+      "speed_select": {
+        "state": {
+          "1": "mdi:fan-speed-1",
+          "2": "mdi:fan-speed-2",
+          "3": "mdi:fan-speed-3"
+        }
+      }
+    }
+  }
+}

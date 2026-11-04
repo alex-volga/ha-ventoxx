@@ -1,7 +1,10 @@
 """The Ventoxx integration."""
 from __future__ import annotations
 
+import os
 import aiohttp
+from homeassistant.components.frontend import add_extra_js_url
+from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -29,8 +32,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     session = aiohttp.ClientSession(cookie_jar=jar)
 
     api = VentoxxAPI(host, password, session)
-    coordinator = VentoxxDataUpdateCoordinator(hass, api, scan_interval)
+    # Fetch device name and firmware version
+    await api.get_device_info()
 
+    coordinator = VentoxxDataUpdateCoordinator(hass, api, scan_interval)
     await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
@@ -38,6 +43,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "api": api,
         "session": session,
     }
+
+    # Register Lovelace card resource
+    frontend_dir = os.path.join(os.path.dirname(__file__), "frontend")
+    card_path = os.path.join(frontend_dir, "ventoxx-card.js")
+    if os.path.exists(card_path):
+        try:
+            await hass.http.async_register_static_paths(
+                [StaticPathConfig("/ventoxx/ventoxx-card.js", card_path, False)]
+            )
+            add_extra_js_url(hass, "/ventoxx/ventoxx-card.js")
+        except Exception:
+            pass
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 

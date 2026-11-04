@@ -68,11 +68,13 @@ class VentoxxFan(CoordinatorEntity[VentoxxDataUpdateCoordinator], FanEntity):
         self._entry_id = entry_id
         self._host = host
         self._attr_unique_id = f"{entry_id}_fan"
+        dev_title = f"Ventoxx ({api.device_name})" if api.device_name else "Ventoxx Harmony"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Ventoxx Harmony",
+            name=dev_title,
             manufacturer="Ventoxx",
             model="Harmony Smart",
+            sw_version=api.sw_version,
             configuration_url=f"http://{host}",
         )
         self._last_speed = 2
@@ -110,11 +112,16 @@ class VentoxxFan(CoordinatorEntity[VentoxxDataUpdateCoordinator], FanEntity):
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return extra state attributes."""
+        dstate = self.coordinator.data.get("dstate", 0)
+        pairing_map = {0: "Незалежний", 1: "Головний", 2: "Підлеглий"}
         return {
+            "device_name": self.api.device_name,
+            "firmware_version": self.api.sw_version,
+            "role": pairing_map.get(dstate, "Незалежний"),
             "speed_level": self.coordinator.data.get("speed"),
             "fstate_raw": self.coordinator.data.get("fstate"),
             "derror": self.coordinator.data.get("derror"),
-            "dstate": self.coordinator.data.get("dstate"),
+            "dstate": dstate,
             "buzzer": bool(self.coordinator.data.get("buzzst", 0)),
             "display": not bool(self.coordinator.data.get("dispst", 0)),
         }

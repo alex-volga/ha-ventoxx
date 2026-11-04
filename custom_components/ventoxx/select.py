@@ -58,11 +58,13 @@ class VentoxxModeSelect(CoordinatorEntity[VentoxxDataUpdateCoordinator], SelectE
         super().__init__(coordinator)
         self.api = api
         self._attr_unique_id = f"{entry_id}_mode_select"
+        dev_title = f"Ventoxx ({api.device_name})" if api.device_name else "Ventoxx Harmony"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Ventoxx Harmony",
+            name=dev_title,
             manufacturer="Ventoxx",
             model="Harmony Smart",
+            sw_version=api.sw_version,
             configuration_url=f"http://{host}",
         )
 
@@ -101,11 +103,13 @@ class VentoxxSpeedSelect(CoordinatorEntity[VentoxxDataUpdateCoordinator], Select
         super().__init__(coordinator)
         self.api = api
         self._attr_unique_id = f"{entry_id}_speed_select"
+        dev_title = f"Ventoxx ({api.device_name})" if api.device_name else "Ventoxx Harmony"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Ventoxx Harmony",
+            name=dev_title,
             manufacturer="Ventoxx",
             model="Harmony Smart",
+            sw_version=api.sw_version,
             configuration_url=f"http://{host}",
         )
 

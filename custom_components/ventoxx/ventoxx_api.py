@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 import aiohttp
 
@@ -82,6 +83,8 @@ class VentoxxAPI:
         self._password = password
         self._session = session
         self._authenticated = False
+        self.device_name: str | None = None
+        self.sw_version: str | None = None
 
     async def authenticate(self) -> bool:
         """Authenticate on Ventoxx web server."""
@@ -100,6 +103,39 @@ class VentoxxAPI:
             _LOGGER.error("Failed to connect to Ventoxx on %s: %s", self._host, ex)
         self._authenticated = False
         return False
+
+    async def get_device_info(self) -> dict[str, str]:
+        """Fetch device name and firmware version from web UI."""
+        if not self._authenticated:
+            if not await self.authenticate():
+                return {}
+
+        info: dict[str, str] = {}
+        # 1. Fetch firmware from upd.html
+        try:
+            async with self._session.get(f"{self._host}/upd.html", timeout=aiohttp.ClientTimeout(total=5)) as resp:
+                if resp.status == 200:
+                    text = await resp.text()
+                    ver_m = re.search(r'\"ota_a_version\":\s*\"([^\"]+)\"', text)
+                    if ver_m:
+                        self.sw_version = ver_m.group(1)
+                        info["sw_version"] = self.sw_version
+        except Exception as ex:
+            _LOGGER.debug("Could not fetch upd.html: %s", ex)
+
+        # 2. Fetch device name from set.html
+        try:
+            async with self._session.get(f"{self._host}/set.html", timeout=aiohttp.ClientTimeout(total=5)) as resp:
+                if resp.status == 200:
+                    text = await resp.text()
+                    name_m = re.search(r'\"gn_vn\":\s*\"([^\"]+)\"', text)
+                    if name_m:
+                        self.device_name = name_m.group(1)
+                        info["device_name"] = self.device_name
+        except Exception as ex:
+            _LOGGER.debug("Could not fetch set.html: %s", ex)
+
+        return info
 
     async def get_state(self) -> dict[str, Any] | None:
         """Fetch current state from the device."""

@@ -79,8 +79,11 @@
       "error": {
         "name": "Error Code"
       },
-      "pairing": {
-        "name": "Pairing State"
+      "role": {
+        "name": "Device Role"
+      },
+      "firmware": {
+        "name": "Firmware Version"
       }
     }
   }

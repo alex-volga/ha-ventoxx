@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-04
+
+### Added
+- **Built-in Interactive Lovelace Card (`custom:ventoxx-card`)**:
+  - Automatically registered in Home Assistant frontend.
+  - Interactive speed controls (`[1] [2] [3]`) and preset mode buttons (`[Рекуперація] [Приплив] [Витяжка] [Інтенсив]`) with live active state highlighting!
+  - Direct display and buzzer toggles.
+- **`icons.json` Support**:
+  - Native Home Assistant Tile cards with `fan-preset-modes` now display icons (`mdi:sync`, `mdi:arrow-right-bold`, `mdi:arrow-left-bold`, etc.) and automatically highlight the active mode!
+- **Device Role & Firmware Version**:
+  - Device role sensor (`sensor.ventoxx_harmony_device_role`) showing pairing mode: `Незалежний`, `Головний`, or `Підлеглий`.
+  - Firmware version extraction from `upd.html` (`sensor.ventoxx_harmony_firmware_version`).
+  - Device network name extraction from `set.html` (`ventoxx-e1ba64`).
+
+---
+
 ## [1.1.1] - 2026-11-04
 
 ### Added

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-11-04
+
+### Changed
+- **Redesigned Lovelace Card (`custom:ventoxx-card`)**:
+  - Replaced speed buttons with an integrated fan toolbar: `[Вимкнено]` (fan-off) and speeds `[1]`, `[2]`, `[3]`.
+  - Added ventilation unit / heat exchanger icon in the header next to the title.
+  - Replaced power toggle icon with standard `⏻` (0_I) power symbol.
+  - Removed display and buzzer switches from the card for a cleaner, modern look.
+  - Removed role badge to save space and reduce clutter.
+  - Added support for customizable card title (`title:` or `name:` configuration options).
+
+---
+
 ## [1.2.0] - 2026-11-04
 
 ### Added

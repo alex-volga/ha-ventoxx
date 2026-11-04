@@ -32,6 +32,133 @@
 
 ---
 
+## 🎨 Приклади карток для дашборду (Dashboard Cards)
+
+Замість звичайної нудної картки зі списком перемикачів, використовуйте сучасну картку Home Assistant:
+
+### Варіант 1: Компактна сучасна Tile-картка (Рекомендовано)
+
+Найбільш ергономічна нативна картка Home Assistant з анімацією обертання та вбудованим керуванням швидкістю і режимами:
+
+```yaml
+type: tile
+entity: fan.ventoxx_harmony_fan
+name: Ventoxx Harmony
+icon: mdi:air-filter
+color: teal
+features:
+  - type: fan-speed
+  - type: fan-preset-modes
+    style: dropdown
+    preset_modes:
+      - recuperation
+      - intake
+      - exhaust
+      - intensive_intake
+      - intensive_exhaust
+```
+
+---
+
+### Варіант 2: Повна панель керування (як у рідному пульті Ventoxx)
+
+Повністю відтворює фізичний пульт і веб-панель Ventoxx: окремі кнопки для кожної швидкості (1, 2, 3), кнопки для кожного режиму та перемикачі підсвітки/звуку:
+
+```yaml
+type: vertical-stack
+cards:
+  # Головна плашка з вентилятором
+  - type: tile
+    entity: fan.ventoxx_harmony_fan
+    name: Ventoxx Harmony
+    icon: mdi:air-filter
+    color: teal
+    features:
+      - type: fan-speed
+
+  # Кнопки швидкостей: 1, 2, 3
+  - type: horizontal-stack
+    cards:
+      - type: button
+        name: "1 Швидкість"
+        icon: mdi:fan-speed-1
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_speed
+          data:
+            option: "1"
+      - type: button
+        name: "2 Швидкість"
+        icon: mdi:fan-speed-2
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_speed
+          data:
+            option: "2"
+      - type: button
+        name: "3 Швидкість"
+        icon: mdi:fan-speed-3
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_speed
+          data:
+            option: "3"
+
+  # Кнопки режимів роботи
+  - type: horizontal-stack
+    cards:
+      - type: button
+        name: "Рекуперація"
+        icon: mdi:sync
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_operating_mode
+          data:
+            option: "recuperation"
+      - type: button
+        name: "Приплив"
+        icon: mdi:arrow-right-bold
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_operating_mode
+          data:
+            option: "intake"
+      - type: button
+        name: "Витяжка"
+        icon: mdi:arrow-left-bold
+        tap_action:
+          action: call-service
+          service: select.select_option
+          target:
+            entity_id: select.ventoxx_harmony_operating_mode
+          data:
+            option: "exhaust"
+
+  # Перемикачі дисплея та звуку
+  - type: horizontal-stack
+    cards:
+      - type: tile
+        entity: switch.ventoxx_harmony_display
+        name: Дисплей
+        icon: mdi:brightness-6
+      - type: tile
+        entity: switch.ventoxx_harmony_buzzer
+        name: Звук
+        icon: mdi:volume-high
+```
+
+---
+
 ## 📦 Встановлення
 
 ### Варіант 1: Через HACS (Рекомендовано)
@@ -89,6 +216,7 @@ action:
 
 ---
 
-## 📄 Ліцензія
+## 📄 Ліцензія та історія змін
 
-Цей проект розповсюджується під ліцензією [MIT](LICENSE).
+* Історія змін: [CHANGELOG.md](CHANGELOG.md)
+* Ліцензія: [MIT](LICENSE)
